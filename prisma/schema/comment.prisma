@@ -1,0 +1,18 @@
+model Comment {
+    id          String   @id @default(uuid())
+    content     String
+    likesCount  Int      @default(0)
+    isEdited    Boolean  @default(false)
+    //
+    //parentCommentId
+    author      User     @relation(fields: [authorId], references: [id])
+    authorId    String
+    commentPost BlogPost @relation(fields: [postId], references: [id])
+    postId      String
+    likes       Like[]
+    //
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@map("comments")
+}

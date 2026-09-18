@@ -1,0 +1,27 @@
+enum Role {
+    SUPER_ADMIN
+    ADMIN
+    USER
+}
+
+enum UserStatus {
+    ACTIVE
+    INACTIVE
+    BLOCKED
+}
+
+enum BlogPostStatus {
+    DRAFT
+    PUBLISHED
+}
+
+enum BlogPostVisibility {
+    PUBLIC
+    PRIVATE
+}
+
+enum NotificationTypes {
+    LIKE
+    COMMENTS
+    FOLLOW
+}

@@ -1,0 +1,36 @@
+model User {
+    id             String         @id @default(uuid())
+    email          String         @unique
+    password       String?
+    name           String?
+    username       String?        @unique
+    profilePhoto   String?
+    boi            String?
+    role           Role           @default(USER)
+    phone          String?
+    country        String?
+    status         UserStatus     @default(ACTIVE)
+    isVerified     Boolean        @default(false)
+    website        String?
+    instagram      String?
+    followersCount Int            @default(0)
+    followingCount Int            @default(0)
+    postsCount     Int            @default(0)
+    //
+    posts          BlogPost[]
+    comments       Comment[]
+    likes          Like[]
+    bookmark       Bookmark[]
+    following      Follower[]     @relation("following")
+    followers      Follower[]     @relation("followers")
+    userId         Notification[] @relation("userId")
+    senderId       Notification[] @relation("senderId")
+    analytics      Analytics[]
+    //
+    lastLoginAt    DateTime?
+    deletedAt      DateTime?
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
+
+    @@map("users")
+}
