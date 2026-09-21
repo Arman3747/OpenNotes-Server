@@ -7,7 +7,7 @@ import config from "./config";
 import { userRouter } from "./app/modules/user/user.routes";
 import { authRouter } from "./app/modules/auth/auth.routes";
 import { CategoryRoutes } from "./app/modules/category/category.routes";
-// import { postRouter } from "./app/modules/post/post.router";
+import { PostRoutes } from "./app/modules/post/post.router";
 
 const app = express();
 
@@ -37,7 +37,7 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/categories", CategoryRoutes);
-// app.use("/api/v1/post", postRouter);
+app.use("/api/v1/post", PostRoutes);
 
 // 404 Handler
 app.use((req, res, next) => {

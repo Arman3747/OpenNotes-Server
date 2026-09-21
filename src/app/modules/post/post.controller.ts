@@ -1,3 +1,149 @@
+import type { Request, Response } from "express";
+import catchAsync from "../../shared/catchAsync";
+import sendResponse from "../../shared/sendResponse";
+import AppError from "../../errorHelpers/AppError";
+import { PostService } from "./post.service";
+import type { PostActor } from "./post.service";
+import { PostValidation } from "./post.validation";
+
+type PostRequest = Request & {
+  user?: PostActor;
+};
+
+const getActor = (req: PostRequest): PostActor => {
+  if (!req.user) {
+    throw new AppError(401, "Please log in to continue");
+  }
+
+  return req.user;
+};
+
+const createPost = catchAsync(async (req: PostRequest, res: Response) => {
+  const actor = getActor(req);
+  const payload = PostValidation.createPostValidationSchema.parse(req.body);
+
+  const result = await PostService.createPost(actor, payload);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 201,
+    message: "Post created successfully",
+    data: result,
+  });
+});
+
+const getAllPosts = catchAsync(async (req: Request, res: Response) => {
+  const query = PostValidation.listPostsQuerySchema.parse(req.query);
+
+  const result = await PostService.getAllPosts(query);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Posts retrieved successfully",
+    data: result,
+  });
+});
+
+const getPostById = catchAsync(async (req: Request, res: Response) => {
+  const { postId } = PostValidation.postIdParamsSchema.parse(req.params);
+
+  const result = await PostService.getPostById(postId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Post retrieved successfully",
+    data: result,
+  });
+});
+
+const getPostBySlug = catchAsync(async (req: Request, res: Response) => {
+  const { slug } = PostValidation.slugParamsSchema.parse(req.params);
+
+  const result = await PostService.getPostBySlug(slug);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Post retrieved successfully",
+    data: result,
+  });
+});
+
+const updatePost = catchAsync(async (req: PostRequest, res: Response) => {
+  const actor = getActor(req);
+  const { postId } = PostValidation.postIdParamsSchema.parse(req.params);
+
+  const payload = PostValidation.updatePostValidationSchema.parse(req.body);
+
+  const result = await PostService.updatePost(postId, actor, payload);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Post updated successfully",
+    data: result,
+  });
+});
+
+const deletePost = catchAsync(async (req: PostRequest, res: Response) => {
+  const actor = getActor(req);
+  const { postId } = PostValidation.postIdParamsSchema.parse(req.params);
+
+  const result = await PostService.deletePost(postId, actor);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Post deleted successfully",
+    data: result,
+  });
+});
+
+const publishPost = catchAsync(async (req: PostRequest, res: Response) => {
+  const actor = getActor(req);
+  const { postId } = PostValidation.postIdParamsSchema.parse(req.params);
+
+  PostValidation.emptyBodySchema.parse(req.body ?? {});
+
+  const result = await PostService.publishPost(postId, actor);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Post published successfully",
+    data: result,
+  });
+});
+
+const unpublishPost = catchAsync(async (req: PostRequest, res: Response) => {
+  const actor = getActor(req);
+  const { postId } = PostValidation.postIdParamsSchema.parse(req.params);
+
+  PostValidation.emptyBodySchema.parse(req.body ?? {});
+
+  const result = await PostService.unpublishPost(postId, actor);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Post unpublished successfully",
+    data: result,
+  });
+});
+
+export const PostController = {
+  createPost,
+  getAllPosts,
+  getPostById,
+  getPostBySlug,
+  updatePost,
+  deletePost,
+  publishPost,
+  unpublishPost,
+};
+
 // import { Request, Response } from "express";
 // import { postService } from "./post.service";
 // // import { UserService } from "./user.service";

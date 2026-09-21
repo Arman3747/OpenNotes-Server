@@ -1,8 +1,8 @@
 model BlogPost {
     id            String             @id @default(uuid())
     title         String
-    slug          String?
-    content       Json // Tiptap or Slate,
+    slug          String?            @unique
+    content       Json // Tiptap or Slate, // BlockNote, TipTap, Editor.js, or Draft.js
     coverImage    String?
     category      Categories         @relation(fields: [categoryId], references: [id])
     categoryId    String
