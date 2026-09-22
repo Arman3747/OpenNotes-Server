@@ -73,7 +73,7 @@ const positiveIntegerQuery = (fallback: string, max: number) =>
 
 const listPostsQuerySchema = z.strictObject({
   page: positiveIntegerQuery("1", 100000),
-  limit: positiveIntegerQuery("10", 100),
+  limit: positiveIntegerQuery("20", 100),
   categoryId: z.uuid().optional(),
   authorId: z.uuid().optional(),
   search: z.string().trim().min(1).max(100).optional(),
