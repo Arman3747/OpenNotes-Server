@@ -12,9 +12,11 @@ import type {
 import { LoginUserInput } from "./auth.interface";
 import { generateToken, verifyToken } from "../../utils/jwt";
 import emailSender from "../../utils/sendEmail";
+import { UserStatus } from "../../../../generated/prisma/enums";
 
-
-const registerWithEmailAndPassword = async (payload: Prisma.UserCreateInput): Promise<User> => {
+const registerWithEmailAndPassword = async (
+  payload: Prisma.UserCreateInput,
+): Promise<User> => {
   const { email, password, ...rest } = payload;
 
   const isUserExist = await prisma.user.findUnique({
@@ -227,9 +229,53 @@ const resetPassword = async ({
   });
 };
 
+const refreshToken = async (token: string) => {
+  let decodedData;
+  try {
+    decodedData = verifyToken(token, config.token.jwt_refresh_secret as string);
+  } catch (err) {
+    throw new Error("You are not authorized!");
+  }
+
+  const userData = await prisma.user.findUnique({
+    where: {
+      id: decodedData.userId,
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      status: true,
+      deletedAt: true,
+    },
+  });
+
+  if (!userData || userData.deletedAt) {
+    throw new AppError(401, "Account is no longer available");
+  }
+
+  if (userData.status !== UserStatus.ACTIVE) {
+    throw new AppError(403, "Account is not active");
+  }
+
+  const accessToken = generateToken(
+    {
+      userId: userData.id,
+      email: userData.email,
+      role: userData.role,
+    },
+    config.token.jwt_access_secret as string,
+    config.token.jwt_access_expires as string,
+  );
+
+  return {
+    accessToken,
+  };
+};
+
 /**
  * http://localhost:3000/reset-password-token?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4YzVmZjg4Mi0zZmNlLTRhYTgtYWE2My0yZDE4MWQ2ODYwYjciLCJlbWFpbCI6ImxlZUB5b3BtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NDQ5MjUyLCJleHAiOjE3ODk0NDk4NTJ9.mQkY6A8R3fR3wBo8DPQllHhSq7E6MCQkiTof3Ka-yzk
-*/
+ */
 
 // const authWithGoogle = async (data: Prisma.UserCreateInput) => {
 //   let user = await prisma.user.findUnique({
@@ -253,6 +299,7 @@ export const AuthService = {
   changePassword,
   forgotPassword,
   resetPassword,
+  refreshToken,
 
   //   authWithGoogle,
 };

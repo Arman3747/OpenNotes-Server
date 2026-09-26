@@ -117,6 +117,28 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies;
+
+  const result = await AuthService.refreshToken(refreshToken);
+  res.cookie("accessToken", result.accessToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: "none",
+    maxAge: 12 * 60 * 60,
+  });
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Access token generated successfully!",
+    data: {
+      message: "Access token generated successfully!",
+      result,
+    },
+  });
+});
+
 // const authWithGoogle = async (req: Request, res: Response) => {
 //   try {
 //     const result = await AuthService.authWithGoogle(req.body);
@@ -133,5 +155,6 @@ export const AuthController = {
   changePassword,
   forgotPassword,
   resetPassword,
+  refreshToken,
   //   authWithGoogle,
 };

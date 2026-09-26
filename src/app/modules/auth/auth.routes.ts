@@ -8,6 +8,7 @@ const router = express.Router();
 router.post("/register", AuthController.registerWithEmailAndPassword);
 router.post("/login", AuthController.loginWithEmailAndPassword);
 router.post("/logout", AuthController.logout);
+router.post("/refresh-token", AuthController.refreshToken);
 
 /**
  * | Situation                                                       | Route              |

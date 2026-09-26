@@ -9,15 +9,15 @@ const router = express.Router();
 // router.get("/:id", UserController.getUsersById);
 
 router.get(
-  "/:userId",
-  checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
-  UserController.getUserById,
-);
-
-router.get(
   "/me",
   checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
   UserController.me,
+);
+
+router.get(
+  "/:userId",
+  checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
+  UserController.getUserById,
 );
 
 router.patch(
