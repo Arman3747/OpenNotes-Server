@@ -6,7 +6,7 @@ model BlogPost {
     coverImage    String?
     category      Categories         @relation(fields: [categoryId], references: [id])
     categoryId    String
-    isFeatured    Boolean            @default(false)
+    isFeatured    Boolean            @default(false) //only admin can do
     tags          String[]
     status        BlogPostStatus     @default(PUBLISHED)
     visibility    BlogPostVisibility @default(PUBLIC)

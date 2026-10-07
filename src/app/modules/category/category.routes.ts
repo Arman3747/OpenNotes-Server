@@ -2,6 +2,7 @@ import express from "express";
 import { Role } from "../../../../generated/prisma/enums";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { CategoryController } from "./category.controller";
+import { multerUpload } from "../../../config/multer.config";
 
 const router = express.Router();
 
@@ -9,6 +10,7 @@ const router = express.Router();
 router.post(
   "/",
   checkAuth(Role.SUPER_ADMIN, Role.ADMIN),
+  multerUpload.single("file"),
   CategoryController.createCategory,
 );
 

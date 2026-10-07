@@ -13,6 +13,7 @@ import type {
   UpdatePostInput,
   ListPostsQuery,
 } from "./post.validation";
+import { deleteImageFromCloudinary } from "../../../config/cloudinary.config";
 
 export interface PostActor {
   userId: string;
@@ -424,6 +425,12 @@ const updatePost = async (
   runMutation(async (tx) => {
     const { post, user } = await requireEditablePost(tx, postId, actor);
 
+    const oldPost = await tx.blogPost.findFirst({
+      where: {
+        id: postId,
+      },
+    });
+
     if (payload.isFeatured !== undefined && !isAdmin(user.role)) {
       throw new AppError(403, "Only admins can set isFeatured");
     }
@@ -477,11 +484,18 @@ const updatePost = async (
       data.isFeatured = payload.isFeatured;
     }
 
-    return tx.blogPost.update({
+    const updatedData = tx.blogPost.update({
       where: { id: postId },
       data,
       include: postInclude,
     });
+
+    // delete image
+    if (payload.coverImage && oldPost?.coverImage) {
+      await deleteImageFromCloudinary(oldPost?.coverImage);
+    }
+
+    return updatedData;
   });
 
 // DELETE /posts/:postId

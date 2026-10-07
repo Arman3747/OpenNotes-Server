@@ -20,7 +20,16 @@ const getActor = (req: PostRequest): PostActor => {
 
 const createPost = catchAsync(async (req: PostRequest, res: Response) => {
   const actor = getActor(req);
-  const payload = PostValidation.createPostValidationSchema.parse(req.body);
+
+  // Image Upload data and file(single)
+  const payloadWithImage = {
+    ...JSON.parse(req.body.data),
+    ...(req.file?.path ? { coverImage: req.file.path } : {}),
+  };
+
+  // Zod Schema validation
+  const payload =
+    PostValidation.createPostValidationSchema.parse(payloadWithImage);
 
   const result = await PostService.createPost(actor, payload);
 
@@ -75,7 +84,15 @@ const updatePost = catchAsync(async (req: PostRequest, res: Response) => {
   const actor = getActor(req);
   const { postId } = PostValidation.postIdParamsSchema.parse(req.params);
 
-  const payload = PostValidation.updatePostValidationSchema.parse(req.body);
+  // Image Upload data and file(single)
+  const payloadWithImage = {
+    ...JSON.parse(req.body.data),
+    ...(req.file?.path ? { coverImage: req.file.path } : {}),
+  };
+
+  // Zod Validation Schema
+  const payload =
+    PostValidation.updatePostValidationSchema.parse(payloadWithImage);
 
   const result = await PostService.updatePost(postId, actor, payload);
 

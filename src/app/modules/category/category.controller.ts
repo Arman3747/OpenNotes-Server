@@ -5,10 +5,15 @@ import { CategoryValidation } from "./category.validation";
 import { CategoryService } from "./category.service";
 
 const createCategory = catchAsync(async (req: Request, res: Response) => {
+  // Image Upload data and file(single)
+  const payloadWithImage = {
+    ...JSON.parse(req.body.data),
+    icon: req.file?.path,
+  };
+
   // zod validation
-  const payload = CategoryValidation.createCategoryValidationSchema.parse(
-    req.body,
-  );
+  const payload =
+    CategoryValidation.createCategoryValidationSchema.parse(payloadWithImage);
   //send service
   const result = await CategoryService.createCategory(payload);
 

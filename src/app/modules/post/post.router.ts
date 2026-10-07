@@ -2,14 +2,33 @@ import { Router } from "express";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { PostController } from "./post.controller";
 import { Role } from "../../../../generated/prisma/enums";
+import { multerUpload } from "../../../config/multer.config";
 
 const router = Router();
+
+/**
+ *
+ * GET {{URL}}/posts/my-posts
+ * GET {{URL}}/posts/my-posts?page=2&limit=10
+ * GET {{URL}}/posts/my-posts?status=DRAFT
+ * GET {{URL}}/posts/my-posts?status=PUBLISHED&search=react
+ * GET {{URL}}/posts/my-posts?categoryId=CATEGORY_UUID
+ *
+ */
+
+// router.get(
+//   "/my-posts",
+//   checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
+//   PostController.getMyPosts,
+// );
 
 // Public reads.
 /**
  *
  * GET {{URL}}/posts?page=1&limit=10
  * GET {{URL}}/posts?search=nextjs&tag=react
+ *
+ * GET /posts?authorId=USER_UUID
  *
  */
 
@@ -22,6 +41,7 @@ router.get("/:postId", PostController.getPostById);
 router.post(
   "/",
   checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
+  multerUpload.single("file"),
   PostController.createPost,
 );
 
@@ -40,6 +60,7 @@ router.patch(
 router.patch(
   "/:postId",
   checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
+  multerUpload.single("file"),
   PostController.updatePost,
 );
 
