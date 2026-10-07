@@ -46,8 +46,14 @@ const updateUser = catchAsync(async (req: AuthRequest, res: Response) => {
     throw new AppError(403, "Forbidden");
   }
 
-  // Validate request body
-  const payload = UserValidation.updateUserValidationSchema.parse(req.body);
+  // Image Upload data and file(single)
+  const payloadWithImage = {
+    ...JSON.parse(req.body.data),
+    ...(req.file?.path ? { profilePhoto: req.file.path } : {}),
+  };
+
+  // Zod Validation Schema
+  const payload = UserValidation.updateUserValidationSchema.parse(payloadWithImage);
 
   // Update database
   const result = await UserService.updateUser(userId, payload);

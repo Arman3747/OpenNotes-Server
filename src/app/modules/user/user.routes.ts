@@ -2,6 +2,7 @@ import express from "express";
 import { UserController } from "./user.controller";
 import { checkAuth } from "../../middlewares/checkAuth";
 import { Role } from "../../../../generated/prisma/enums";
+import { multerUpload } from "../../../config/multer.config";
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.get(
 router.patch(
   "/:userId",
   checkAuth(Role.SUPER_ADMIN, Role.ADMIN, Role.USER),
+  multerUpload.single("file"),
   UserController.updateUser,
 );
 

@@ -5,6 +5,7 @@ import bcryptjs from "bcryptjs";
 import config from "../../../config";
 import { UpdateUserInput } from "./user.validation";
 import { UserStatus } from "../../../../generated/prisma/enums";
+import { deleteImageFromCloudinary } from "../../../config/cloudinary.config";
 
 const me = async (userId: string) => {
   const user = await prisma.user.findUnique({
@@ -73,6 +74,12 @@ const createUser = async (payload: Prisma.UserCreateInput): Promise<User> => {
 };
 
 const updateUser = async (userId: string, payload: UpdateUserInput) => {
+  const oldUser = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+
   const updatedUser = await prisma.user.update({
     where: {
       id: userId,
@@ -93,6 +100,11 @@ const updateUser = async (userId: string, payload: UpdateUserInput) => {
       updatedAt: true,
     },
   });
+
+  // delete image
+  if (payload.profilePhoto && oldUser?.profilePhoto) {
+    await deleteImageFromCloudinary(oldUser?.profilePhoto);
+  }
 
   return updatedUser;
 };
