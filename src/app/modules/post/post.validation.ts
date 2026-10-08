@@ -25,6 +25,7 @@ const editableFields = {
   title: z.string().trim().min(3).max(200),
   slug: slugSchema.optional(),
   content: contentSchema,
+  status: z.enum(["DRAFT", "PUBLISHED"]).optional(),
   coverImage: z
     .url({ protocol: /^https?$/ })
     .nullable()
