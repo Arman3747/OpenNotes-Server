@@ -147,6 +147,50 @@ Required indicates whether a value must be supplied when creating a comment. Fie
 
 ---
 
+# ROUTES
+
+### AUTH Routes
+
+| Route                          | Method | Description             |
+| ------------------------------ | ------ | ----------------------- |
+| `/api/v1/auth/register`        | POST   | Create a new `USER`     |
+| `/api/v1/auth/login`           | POST   | `USER` Login            |
+| `/api/v1/auth/logout`          | POST   | `USER` Logout           |
+| `/api/v1/auth/refresh-token`   | POST   | Get New `Refresh Token` |
+| `/api/v1/auth/change-password` | POST   | Change User Password    |
+| `/api/v1/auth/forgot-password` | POST   | Forgot Password         |
+| `/api/v1/auth/reset-password`  | POST   | Reset User Password     |
+
+### USER Routes
+
+| Route                  | Method | Description                         |
+| ---------------------- | ------ | ----------------------------------- |
+| `/api/v1/user/me`      | GET    | GET `USER` Details                  |
+| `/api/v1/user/:userId` | GET    | GET `USER` Details with `userId`    |
+| `/api/v1/user/:userId` | PATCH  | Update `USER` Details with `userId` |
+
+### CATEGORY Routes
+
+| Route                            | Method | Description                                                        |
+| -------------------------------- | ------ | ------------------------------------------------------------------ |
+| `/api/v1/categories`             | GET    | GET All Category                                                   |
+| `/api/v1/categories/:categoryId` | GET    | GET a single Category with categoryId                              |
+| `/api/v1/categories`             | POST   | POST a Category - only `ADMIN AND SUPER_ADMIN` can post a Category |
+
+### POSTS Routes
+
+| Route                                  | Method | Description                   |
+| -------------------------------------- | ------ | ----------------------------- |
+| `/api/v1/post?page=1&limit=10`         | GET    | GET All POST                  |
+| `/api/v1/post?search=nextjs&tag=react` | GET    | GET All POST                  |
+| `/api/v1/post?authorId=USER_UUID`      | GET    | GET All POST                  |
+| `/api/v1/post/:postId`                 | GET    | GET A Single POST with postId |
+| `/api/v1/post/slug/:slug`              | GET    | GET A Single POST with slug   |
+| `/api/v1/post`                         | POST   | CREATE A Single POST          |
+| `/api/v1/post/:postId`                 | PATCH  | UPDATE A Single POST          |
+
+---
+
 ## npm packages in Server Side
 
 - Use [TypeScript](https://www.typescriptlang.org/) to add static typing, catch errors early, and make JavaScript code easier to maintain.
