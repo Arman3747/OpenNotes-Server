@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   cors({
-    origin: ["http://localhost:3000","https://open-notes-client.vercel.app"],
+    origin: ["https://open-notes-client.vercel.app","http://localhost:3000"],
     credentials: true,
   }),
 );
