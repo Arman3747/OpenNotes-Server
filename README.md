@@ -11,15 +11,29 @@ OpenNotes is a full-stack blogging platform where users can create, share, and d
 ## Table of Contents
 
 - [Key Features of OpenNotes](#key-features-of-opennotes)
-- [Frontend Tech Stack](#frontend-tech-stack)
-- [Backend Tech Stack](#backend-tech-stack)
+- [TECH STACK](#tech-stack)
+  - [Frontend Tech Stack](#frontend-tech-stack)
+  - [Backend Tech Stack](#backend-tech-stack)
 - [Database Model](#database-model)
+  - [User Model](#user-model)
+  - [Categories Model](#categories-model)
+  - [BlogPost Model](#blogpost-model)
+  - [Comment Model](#comment-model)
 - [ROUTES](#routes)
+  - [AUTH Routes](#auth-routes)
+  - [USER Routes](#user-routes)
+  - [CATEGORY Routes](#category-routes)
+  - [POSTS Routes](#posts-routes)
+  - [COMMENTS Routes](#comments-routes)
 - [npm packages in Server Side](#npm-packages-in-server-side)
 - [Technologies Used](#technologies-used)
-- [Installation & Setup Instructions](#installation-setup-instructions)
+- [Installation and Setup Instructions](#installation-and-setup-instructions)
+  - [1. Clone the Repositories](#1-clone-the-repositories)
+  - [2. Client Setup](#2-client-setup)
+  - [3. Server Setup](#3-server-setup)
+- [Deployed ON](#deployed-on)
 
-## 🚀 Key Features of OpenNotes
+## Key Features of OpenNotes
 
 ### User accounts and authentication
 
@@ -85,6 +99,8 @@ OpenNotes is a full-stack blogging platform where users can create, share, and d
 
 ---
 
+# TECH STACK
+
 ## Frontend Tech Stack
 
 | Layer             | Technologies                               | Purpose                                              |
@@ -114,9 +130,9 @@ OpenNotes is a full-stack blogging platform where users can create, share, and d
 
 ---
 
-## Database Model
+# Database Model
 
-### 👤 User Model
+## User Model
 
 **Fields & Validation:**
 
@@ -160,7 +176,7 @@ Required indicates whether a value must be supplied when creating a user. Fields
 | senderId  | Notification[] | No       | Notification records using the named relation `senderId`; a relation list, not a scalar ID |
 | analytics | Analytics[]    | No       | Related analytics records; can be empty                                                    |
 
-### 🗂️ Categories Model
+### Categories Model
 
 **Fields & Validation:**
 
@@ -179,7 +195,7 @@ Required indicates whether a value must be supplied when creating a user. Fields
 | ----- | ---------- | -------- | ------------------------------------- |
 | posts | BlogPost[] | No       | Related blog posts; can be empty list |
 
-### 📝 BlogPost Model
+### BlogPost Model
 
 **Fields & Validation:**
 
@@ -219,7 +235,7 @@ Required indicates whether a value must be supplied when creating a blog post. F
 | analytics     | Analytics[]    | No       | Related analytics records; can be empty                                                |
 | author        | User           | Yes      | Related author; linked through `authorId` referencing `User.id`                        |
 
-### 💬 Comment Model
+### Comment Model
 
 **Fields & Validation:**
 
@@ -290,6 +306,16 @@ Required indicates whether a value must be supplied when creating a comment. Fie
 
 ---
 
+### COMMENTS Routes
+
+| Route                           | Method | Description                 |
+| ------------------------------- | ------ | --------------------------- |
+| `/api/v1/post/:postId/comments` | GET    | GET All Comments of a post  |
+| `/api/v1/post/:postId/comments` | POST   | CREATE a Comments of a post |
+| `/api/v1/comments/:commentId`   | PATCH  | UPDATE a Comment            |
+
+---
+
 ## npm packages in Server Side
 
 - Use [TypeScript](https://www.typescriptlang.org/) to add static typing, catch errors early, and make JavaScript code easier to maintain.
@@ -323,7 +349,7 @@ Required indicates whether a value must be supplied when creating a comment. Fie
 - ![cloudinary](https://img.shields.io/badge/cloudinary-v1.41.3-155dfc?logo=cloudinary&logoColor=%233448C5)
 - ![Vercel](https://img.shields.io/badge/Vercel-ffffff?logo=vercel&logoColor=%23000000)
 
-## 🛠️ Installation & Setup Instructions
+## Installation and Setup Instructions
 
 Follow the steps below to set up the **OpenNotes** application locally:
 
@@ -348,8 +374,14 @@ npm install
 Create a `.env.local` file in the root of the client folder and add the following:
 
 ```env
-update later
-VITE_apiKey=your_firebase_key
+
+#BASE URL
+BASE_API_URL=https://your-backend-domain/api/v1
+NEXT_PUBLIC_BASE_API=https://your-backend-domain/api/v1
+
+#jwt
+JWT_ACCESS_SECRET = your_jwt_access_secret 
+JWT_REFRESH_SECRET = your_jwt_refresh_secret
 
 ```
 
@@ -410,6 +442,12 @@ Then start the server:
 npm run dev
 ```
 
+---
+
+## Deployed ON
+
+- Deployed on [Vercel](https://vercel.com/)
+- Live Link - [OpenNotes](https://open-notes-client.vercel.app/) !
 ---
 
 ### Thank you for Reading!
