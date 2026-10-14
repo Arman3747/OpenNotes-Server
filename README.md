@@ -1,19 +1,107 @@
 ![App Screenshot](https://i.ibb.co/TD506KZZ/Open-Notes-Hero.png)
 
-# Blogging platform - (OpenNotes)
+# Blogging Platform - (OpenNotes)
 
-In this Web App, you can post a blog and share
+OpenNotes is a full-stack blogging platform where users can create, share, and discover articles with a rich-text editor and secure authentication.
 
 ## Live Link
 
-- Please Visit [OpenNotes](#) !
+- Please Visit [OpenNotes](https://open-notes-client.vercel.app/) !
 
 ## 🚀 Key Features of OpenNotes
 
-- 👥 **User Role Detection in Navbar**  
-  Dynamically shows or hides options in the navigation bar based on whether the user is logged in or not.
-- 🔐 **JWT Authentication System**  
-  All private routes are protected using JSON Web Tokens (JWT), with support for email/password and Google sign-in.
+### User accounts and authentication
+
+- User registration and login with email and password.
+- JWT authentication with access and refresh tokens.
+- HTTP-only cookies for authentication.
+- Logout functionality.
+- Email verification.
+- Forgot-password and reset-password flows.
+- Change password for logged-in users.
+- Protected routes and role-based access.
+- Redirect users to their intended page after login.
+
+### User profiles
+
+- View and edit personal information.
+- Upload or update a profile photo.
+- Manage name, username, biography, phone, and country.
+- Add website and Instagram links.
+- Display post, follower, and following counts.
+
+### Post creation and management
+
+- Create, view, edit, and delete blog posts.
+- Write formatted content using the Tiptap editor.
+- Support headings, lists, links, quotes, and code blocks.
+- Apply text alignment, text colours, and highlights.
+- Upload and replace cover images.
+- Assign categories and add multiple tags.
+- Save posts as drafts or publish them.
+- Set public or private visibility.
+- Access posts through unique, readable slugs.
+- Display reading time and publication dates.
+
+### Browsing and discovery
+
+- Browse the latest posts.
+- View individual posts and author details.
+- Navigate paginated post listings.
+- Select the number of posts per page.
+- View total posts and the current results range.
+- Preserve pagination in the URL for sharing and navigation.
+
+### Dashboard and administration
+
+- Personal dashboard for managing posts.
+- Edit posts directly from dashboard actions.
+- Manage draft and published content.
+- Support User, Admin, and Super Admin roles.
+- Manage user accounts, roles, and account statuses.
+- Restrict actions according to permissions.
+
+### Interface and reliability
+
+- Responsive layouts for desktop and mobile.
+- Reusable shadcn/ui components.
+- Client-side and server-side validation.
+- Image type and size validation.
+- Image previews before uploading.
+- Loading indicators and disabled submission controls.
+- Helpful validation, API-error, and empty-state messages.
+- PostgreSQL storage managed through Prisma.
+
+---
+
+## Frontend Tech Stack
+
+| Layer             | Technologies                               | Purpose                                              |
+| ----------------- | ------------------------------------------ | ---------------------------------------------------- |
+| Frontend          | **Next.js(App Router), React, TypeScript** | Pages, components, routing, and server actions       |
+| Styling           | **Tailwind CSS, shadcn/ui**                | Styling and reusable UI components                   |
+| Forms             | **React Hook Form, Zod**                   | Form handling and input validation                   |
+| API communication | **Fetch API, JSON, FormData**              | Sending requests, structured data, and image uploads |
+| Rich-text editor  | **Tiptap**                                 | Writing blog content and storing it as JSON          |
+| Date formatting   | **date-fns**                               | Displaying readable dates                            |
+| Icons             | **Lucide React**                           | Interface icons                                      |
+| Deployment        | **Vercel**                                 | Deployment platform you’re configuring               |
+
+---
+
+## Backend Tech Stack
+
+| Layer          | Technologies                                      | Purpose                                                                  |
+| -------------- | ------------------------------------------------- | ------------------------------------------------------------------------ |
+| Backend        | **Node.js, Express.js, TypeScript**               | REST APIs and business logic                                             |
+| Database       | **PostgreSQL**                                    | Storing users, posts, categories, and comments                           |
+| ORM            | **Prisma**                                        | Database queries, models, and migrations                                 |
+| Authentication | **JWT, bcryptjs, HTTP-only cookies**              | Access/refresh tokens, password hashing, and cookie-based authentication |
+| Middleware     | **cookie-parser, CORS**                           | Reading cookies and allowing frontend API requests                       |
+| Image uploads  | **Multer, multer-storage-cloudinary, Cloudinary** | Receiving, storing, and serving images                                   |
+| Deployment     | **Vercel**                                        | Deployment platform you’re configuring                                   |
+
+---
 
 ---
 
@@ -297,7 +385,6 @@ RESET_PASS_LINK=http://localhost:3000/resetPassword
 #Email sender
 EMAIL=your_email_address
 app_pass=smtp_password
-
 
 #CLOUDINARY
 CLOUDINARY_CLOUD_NAME=your_cloudinary_name
