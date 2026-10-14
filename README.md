@@ -8,6 +8,17 @@ OpenNotes is a full-stack blogging platform where users can create, share, and d
 
 - Please Visit [OpenNotes](https://open-notes-client.vercel.app/) !
 
+## Table of Contents
+
+- [Key Features of OpenNotes](#key-features-of-opennotes)
+- [Frontend Tech Stack](#frontend-tech-stack)
+- [Backend Tech Stack](#backend-tech-stack)
+- [Database Model](#database-model)
+- [ROUTES](#routes)
+- [npm packages in Server Side](#npm-packages-in-server-side)
+- [Technologies Used](#technologies-used)
+- [Installation & Setup Instructions](#installation-setup-instructions)
+
 ## 🚀 Key Features of OpenNotes
 
 ### User accounts and authentication
@@ -103,9 +114,9 @@ OpenNotes is a full-stack blogging platform where users can create, share, and d
 
 ---
 
----
+## Database Model
 
-## 👤 User Model
+### 👤 User Model
 
 **Fields & Validation:**
 
@@ -149,7 +160,7 @@ Required indicates whether a value must be supplied when creating a user. Fields
 | senderId  | Notification[] | No       | Notification records using the named relation `senderId`; a relation list, not a scalar ID |
 | analytics | Analytics[]    | No       | Related analytics records; can be empty                                                    |
 
-## 🗂️ Categories Model
+### 🗂️ Categories Model
 
 **Fields & Validation:**
 
@@ -168,7 +179,7 @@ Required indicates whether a value must be supplied when creating a user. Fields
 | ----- | ---------- | -------- | ------------------------------------- |
 | posts | BlogPost[] | No       | Related blog posts; can be empty list |
 
-## 📝 BlogPost Model
+### 📝 BlogPost Model
 
 **Fields & Validation:**
 
@@ -208,7 +219,7 @@ Required indicates whether a value must be supplied when creating a blog post. F
 | analytics     | Analytics[]    | No       | Related analytics records; can be empty                                                |
 | author        | User           | Yes      | Related author; linked through `authorId` referencing `User.id`                        |
 
-## 💬 Comment Model
+### 💬 Comment Model
 
 **Fields & Validation:**
 
@@ -235,7 +246,7 @@ Required indicates whether a value must be supplied when creating a comment. Fie
 
 ---
 
-# ROUTES
+## ROUTES
 
 ### AUTH Routes
 
