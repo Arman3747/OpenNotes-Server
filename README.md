@@ -31,7 +31,7 @@ OpenNotes is a full-stack blogging platform where users can create, share, and d
   - [1. Clone the Repositories](#1-clone-the-repositories)
   - [2. Client Setup](#2-client-setup)
   - [3. Server Setup](#3-server-setup)
-- [Deployed ON](#deployed-on)
+- [Deployment](#deployment)
 
 ## Key Features of OpenNotes
 
@@ -444,10 +444,15 @@ npm run dev
 
 ---
 
-## Deployed ON
+## Deployment
 
-- Deployed on [Vercel](https://vercel.com/)
-- Live Link - [OpenNotes](https://open-notes-client.vercel.app/) !
+1. Push the code to GitHub.
+2. Connect your repository to [Vercel](https://vercel.com/).
+3. Set environment variables in Vercel dashboard.
+4. Deploy the site. Live URL will be generated automatically.
+
+- [OpenNotes Live Link](https://open-notes-client.vercel.app/) !
+
 ---
 
 ### Thank you for Reading!
